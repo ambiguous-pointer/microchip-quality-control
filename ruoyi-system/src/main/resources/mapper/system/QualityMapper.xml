@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.quality.mapper.QualityMapper">
+    
+    <resultMap type="Quality" id="QualityResult">
+        <result property="id"    column="id"    />
+        <result property="assemblyLineId"    column="assembly_line_id"    />
+        <result property="samplingTime"    column="sampling_time"    />
+        <result property="distinguishTime"    column="distinguish_time"    />
+        <result property="pingResult"    column="ping_result"    />
+        <result property="classifyResult"    column="classify_result"    />
+        <result property="imagepath"    column="imagePath"    />
+    </resultMap>
+
+    <sql id="selectQualityVo">
+        select id, assembly_line_id, sampling_time, distinguish_time, ping_result, classify_result, imagePath from quality
+    </sql>
+
+    <select id="selectQualityList" parameterType="Quality" resultMap="QualityResult">
+        <include refid="selectQualityVo"/>
+        <where>  
+            <if test="assemblyLineId != null  and assemblyLineId != ''"> and assembly_line_id = #{assemblyLineId}</if>
+            <if test="samplingTime != null "> and sampling_time = #{samplingTime}</if>
+            <if test="distinguishTime != null "> and distinguish_time = #{distinguishTime}</if>
+            <if test="pingResult != null  and pingResult != ''"> and ping_result = #{pingResult}</if>
+            <if test="classifyResult != null  and classifyResult != ''"> and classify_result = #{classifyResult}</if>
+            <if test="imagepath != null  and imagepath != ''"> and imagePath = #{imagepath}</if>
+        </where>
+    </select>
+    
+    <select id="selectQualityById" parameterType="String" resultMap="QualityResult">
+        <include refid="selectQualityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertQuality" parameterType="Quality">
+        insert into quality
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="assemblyLineId != null">assembly_line_id,</if>
+            <if test="samplingTime != null">sampling_time,</if>
+            <if test="distinguishTime != null">distinguish_time,</if>
+            <if test="pingResult != null">ping_result,</if>
+            <if test="classifyResult != null">classify_result,</if>
+            <if test="imagepath != null">imagePath,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="assemblyLineId != null">#{assemblyLineId},</if>
+            <if test="samplingTime != null">#{samplingTime},</if>
+            <if test="distinguishTime != null">#{distinguishTime},</if>
+            <if test="pingResult != null">#{pingResult},</if>
+            <if test="classifyResult != null">#{classifyResult},</if>
+            <if test="imagepath != null">#{imagepath},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQuality" parameterType="Quality">
+        update quality
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="assemblyLineId != null">assembly_line_id = #{assemblyLineId},</if>
+            <if test="samplingTime != null">sampling_time = #{samplingTime},</if>
+            <if test="distinguishTime != null">distinguish_time = #{distinguishTime},</if>
+            <if test="pingResult != null">ping_result = #{pingResult},</if>
+            <if test="classifyResult != null">classify_result = #{classifyResult},</if>
+            <if test="imagepath != null">imagePath = #{imagepath},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQualityById" parameterType="String">
+        delete from quality where id = #{id}
+    </delete>
+
+    <delete id="deleteQualityByIds" parameterType="String">
+        delete from quality where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
