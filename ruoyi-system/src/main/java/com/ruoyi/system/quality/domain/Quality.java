@@ -2,6 +2,7 @@ package com.ruoyi.system.quality.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.system.line.domain.AssemblyLine;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -45,6 +46,8 @@ public class Quality extends BaseEntity
     /** 图片数据地址 */
     @Excel(name = "图片数据地址")
     private String imagepath;
+
+    private AssemblyLine assemblyLine;
 
     public void setId(String id) 
     {
@@ -108,6 +111,14 @@ public class Quality extends BaseEntity
     public String getImagepath() 
     {
         return imagepath;
+    }
+
+    public AssemblyLine getAssemblyLine() {
+        return assemblyLine;
+    }
+
+    public void setAssemblyLine(AssemblyLine assemblyLine) {
+        this.assemblyLine = assemblyLine;
     }
 
     @Override

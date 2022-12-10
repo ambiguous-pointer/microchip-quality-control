@@ -1,28 +1,28 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="流水线id" prop="assemblyLineId">
+      <el-form-item label="流水线名" prop="assemblyLineId">
         <el-input
           v-model="queryParams.assemblyLineId"
-          placeholder="请输入流水线id"
+          placeholder="请输入流水线名"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item label="采样时间" prop="samplingTime">
         <el-date-picker clearable
-          v-model="queryParams.samplingTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择采样时间">
+                        v-model="queryParams.samplingTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择采样时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="识别时间" prop="distinguishTime">
         <el-date-picker clearable
-          v-model="queryParams.distinguishTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择识别时间">
+                        v-model="queryParams.distinguishTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="请选择识别时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="引角结果" prop="pingResult">
@@ -64,7 +64,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['system:quality:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -75,7 +76,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['system:quality:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -86,7 +88,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['system:quality:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -96,15 +99,16 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['system:quality:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="qualityList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
-      <el-table-column label="流水线id" align="center" prop="assemblyLineId" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="识别编号" align="center" prop="id"/>
+      <el-table-column label="流水线名" align="center" prop="assemblyLine.aLName"/>
       <el-table-column label="采样时间" align="center" prop="samplingTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.samplingTime, '{y}-{m}-{d}') }}</span>
@@ -115,9 +119,28 @@
           <span>{{ parseTime(scope.row.distinguishTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="引角结果" align="center" prop="pingResult" />
-      <el-table-column label="划痕及结果" align="center" prop="classifyResult" />
-      <el-table-column label="图片数据地址" align="center" prop="imagepath" />
+      <el-table-column label="引角结果" align="center" prop="pingResult">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.pingResult == 1" type="success">成功</el-tag>
+          <el-tag v-if="scope.row.pingResult == 2" type="danger">失败</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="划痕及结果" align="center" prop="classifyResult">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.classifyResult == 1" type="success">成功</el-tag>
+          <el-tag v-if="scope.row.classifyResult == 2" type="danger">失败</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="芯片图片" align="center" prop="imagepath">
+        <template slot-scope="scope">
+          <el-image style="width: 30px; height: 30px" :src="scope.row.imagepath"
+                    :preview-src-list="[scope.row.imagepath]">
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -126,18 +149,20 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:quality:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:quality:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -150,32 +175,32 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="流水线id" prop="assemblyLineId">
-          <el-input v-model="form.assemblyLineId" placeholder="请输入流水线id" />
+          <el-input v-model="form.assemblyLineId" placeholder="请输入流水线id"/>
         </el-form-item>
         <el-form-item label="采样时间" prop="samplingTime">
           <el-date-picker clearable
-            v-model="form.samplingTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择采样时间">
+                          v-model="form.samplingTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择采样时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="识别时间" prop="distinguishTime">
           <el-date-picker clearable
-            v-model="form.distinguishTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择识别时间">
+                          v-model="form.distinguishTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择识别时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="引角结果" prop="pingResult">
-          <el-input v-model="form.pingResult" placeholder="请输入引角结果" />
+          <el-input v-model="form.pingResult" placeholder="请输入引角结果"/>
         </el-form-item>
         <el-form-item label="划痕及结果" prop="classifyResult">
-          <el-input v-model="form.classifyResult" placeholder="请输入划痕及结果" />
+          <el-input v-model="form.classifyResult" placeholder="请输入划痕及结果"/>
         </el-form-item>
         <el-form-item label="图片数据地址" prop="imagepath">
-          <el-input v-model="form.imagepath" placeholder="请输入图片数据地址" />
+          <el-input v-model="form.imagepath" placeholder="请输入图片数据地址"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -187,7 +212,7 @@
 </template>
 
 <script>
-import { listQuality, getQuality, delQuality, addQuality, updateQuality } from "@/api/system/quality";
+import {listQuality, getQuality, delQuality, addQuality, updateQuality} from "@/api/system/quality";
 
 export default {
   name: "Quality",
@@ -225,12 +250,12 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      }
+      rules: {}
     };
   },
   created() {
     this.getList();
+
   },
   methods: {
     /** 查询检查列表 */
@@ -238,6 +263,10 @@ export default {
       this.loading = true;
       listQuality(this.queryParams).then(response => {
         this.qualityList = response.rows;
+        this.qualityList.map((value, index, array) => {
+          value.imagepath = process.env.VUE_APP_BASE_API + value.imagepath;
+          return value;
+        })
         this.total = response.total;
         this.loading = false;
       });
@@ -273,7 +302,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -315,12 +344,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除检查编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除检查编号为"' + ids + '"的数据项？').then(function () {
         return delQuality(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

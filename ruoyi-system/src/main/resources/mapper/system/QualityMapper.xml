@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="pingResult"    column="ping_result"    />
         <result property="classifyResult"    column="classify_result"    />
         <result property="imagepath"    column="imagePath"    />
+        <association property="assemblyLine"    column="assembly_line_id" javaType="AssemblyLine" resultMap="com.ruoyi.system.line.mapper.AssemblyLineMapper.AssemblyLineResult" />
     </resultMap>
 
     <sql id="selectQualityVo">
@@ -19,14 +20,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectQualityList" parameterType="Quality" resultMap="QualityResult">
-        <include refid="selectQualityVo"/>
+        select q.id, q.assembly_line_id, q.sampling_time, q.distinguish_time, q.ping_result, q.classify_result, q.imagePath,al.a_l_name from quality as q left join assembly_line as al on al.uid = q.assembly_line_id
         <where>  
-            <if test="assemblyLineId != null  and assemblyLineId != ''"> and assembly_line_id = #{assemblyLineId}</if>
-            <if test="samplingTime != null "> and sampling_time = #{samplingTime}</if>
-            <if test="distinguishTime != null "> and distinguish_time = #{distinguishTime}</if>
-            <if test="pingResult != null  and pingResult != ''"> and ping_result = #{pingResult}</if>
-            <if test="classifyResult != null  and classifyResult != ''"> and classify_result = #{classifyResult}</if>
-            <if test="imagepath != null  and imagepath != ''"> and imagePath = #{imagepath}</if>
+            <if test="assemblyLineId != null  and assemblyLineId != ''"> and q.assembly_line_id = #{assemblyLineId}</if>
+            <if test="samplingTime != null "> and q.sampling_time = #{samplingTime}</if>
+            <if test="distinguishTime != null "> and q.distinguish_time = #{distinguishTime}</if>
+            <if test="pingResult != null  and pingResult != ''"> and q.ping_result = #{pingResult}</if>
+            <if test="classifyResult != null  and classifyResult != ''"> and q.classify_result = #{classifyResult}</if>
+            <if test="imagepath != null  and imagepath != ''"> and q.imagePath = #{imagepath}</if>
         </where>
     </select>
     
