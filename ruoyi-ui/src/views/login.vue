@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">芯片质检系统</h3>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -72,8 +72,8 @@ export default {
     return {
       codeUrl: "",
       loginForm: {
-        username: "admin",
-        password: "admin123",
+        username: "quality",
+        password: "123456",
         rememberMe: false,
         code: "",
         uuid: ""
@@ -161,7 +161,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.jpg");
+  background-image: url("https://s.cn.bing.net/th?id=OHR.SaltDesert_ZH-CN4728398785_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50");
   background-size: cover;
 }
 .title {
