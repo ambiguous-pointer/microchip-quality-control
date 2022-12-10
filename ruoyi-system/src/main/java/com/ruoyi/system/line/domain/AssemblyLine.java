@@ -26,7 +26,17 @@ public class AssemblyLine extends BaseEntity
     @Excel(name = "流水线名")
     private String aLName;
 
-    public void setuId(String uId) 
+    private String countNumber;
+
+    public String getCountNumber() {
+        return countNumber;
+    }
+
+    public void setCountNumber(String countNumber) {
+        this.countNumber = countNumber;
+    }
+
+    public void setuId(String uId)
     {
         this.uId = uId;
     }

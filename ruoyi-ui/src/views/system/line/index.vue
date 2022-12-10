@@ -74,6 +74,7 @@
       <el-table-column label="UID" align="center" prop="uId" />
       <el-table-column label="流水线编号" align="center" prop="aLCode" />
       <el-table-column label="流水线名" align="center" prop="aLName" />
+      <el-table-column label="流水线识别芯片数" align="center" prop="countNumber" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -93,7 +94,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
