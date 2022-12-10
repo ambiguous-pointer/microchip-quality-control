@@ -8,7 +8,10 @@
             element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading"
             element-loading-background="rgba(0, 0, 0, 0.8)">
-            <image-preview :src="imageSrc"></image-preview>
+<!--            <image-preview :src="imageSrc"></image-preview>-->
+            <video muted autoplay loop width="100%">
+              <source src="../../../assets/mp4/lx.mp4" type="video/mp4">
+            </video>
           </div>
         </el-col>
 
