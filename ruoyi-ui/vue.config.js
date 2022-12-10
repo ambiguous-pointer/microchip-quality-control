@@ -40,7 +40,11 @@ module.exports = {
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
-      }
+      },
+      // '/video': {
+      //   target:'http://192.168.3.17:4747',
+      //   changeOrigin: true
+      // }
     },
     disableHostCheck: true
   },
