@@ -49,7 +49,17 @@ public class Quality extends BaseEntity
 
     private AssemblyLine assemblyLine;
 
-    public void setId(String id) 
+    private String ms;
+
+    public String getMs() {
+        return ms;
+    }
+
+    public void setMs(String ms) {
+        this.ms = ms;
+    }
+
+    public void setId(String id)
     {
         this.id = id;
     }

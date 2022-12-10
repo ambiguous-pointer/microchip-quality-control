@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.pin.mapper.MicrochipPinLogMapper">
+    
+    <resultMap type="MicrochipPinLog" id="MicrochipPinLogResult">
+        <result property="uid"    column="uid"    />
+        <result property="threshold"    column="threshold"    />
+        <result property="result"    column="result"    />
+        <result property="confidence"    column="confidence"    />
+        <result property="index"    column="index"    />
+        <result property="label"    column="label"    />
+        <result property="modelkind"    column="modelKind"    />
+        <result property="name"    column="name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="location"    column="location"    />
+        <result property="qualityId"    column="quality_id"    />
+    </resultMap>
+
+    <sql id="selectMicrochipPinLogVo">
+        select uid, threshold, `result`, confidence, `index`, label, modelKind, `name`, create_time, location, quality_id from microchip_pin_log
+    </sql>
+
+    <select id="selectMicrochipPinLogList" parameterType="MicrochipPinLog" resultMap="MicrochipPinLogResult">
+        <include refid="selectMicrochipPinLogVo"/>
+        <where>  
+            <if test="threshold != null  and threshold != ''"> and threshold = #{threshold}</if>
+            <if test="result != null  and result != ''"> and `result` = #{result}</if>
+            <if test="confidence != null  and confidence != ''"> and confidence = #{confidence}</if>
+            <if test="index != null "> and `index` = #{index}</if>
+            <if test="label != null  and label != ''"> and label = #{label}</if>
+            <if test="modelkind != null "> and modelKind = #{modelkind}</if>
+            <if test="name != null  and name != ''"> and `name` like concat('%', #{name}, '%')</if>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+            <if test="qualityId != null  and qualityId != ''"> and quality_id = #{qualityId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMicrochipPinLogByUid" parameterType="String" resultMap="MicrochipPinLogResult">
+        <include refid="selectMicrochipPinLogVo"/>
+        where uid = #{uid}
+    </select>
+        
+    <insert id="insertMicrochipPinLog" parameterType="MicrochipPinLog">
+        insert into microchip_pin_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">uid,</if>
+            <if test="threshold != null">threshold,</if>
+            <if test="result != null">`result`,</if>
+            <if test="confidence != null">confidence,</if>
+            <if test="index != null">`index`,</if>
+            <if test="label != null">label,</if>
+            <if test="modelkind != null">modelKind,</if>
+            <if test="name != null">`name`,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="location != null">location,</if>
+            <if test="qualityId != null">quality_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid},</if>
+            <if test="threshold != null">#{threshold},</if>
+            <if test="result != null">#{result},</if>
+            <if test="confidence != null">#{confidence},</if>
+            <if test="index != null">#{index},</if>
+            <if test="label != null">#{label},</if>
+            <if test="modelkind != null">#{modelkind},</if>
+            <if test="name != null">#{name},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="location != null">#{location},</if>
+            <if test="qualityId != null">#{qualityId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMicrochipPinLog" parameterType="MicrochipPinLog">
+        update microchip_pin_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="threshold != null">threshold = #{threshold},</if>
+            <if test="result != null">`result` = #{result},</if>
+            <if test="confidence != null">confidence = #{confidence},</if>
+            <if test="index != null">`index` = #{index},</if>
+            <if test="label != null">label = #{label},</if>
+            <if test="modelkind != null">modelKind = #{modelkind},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="qualityId != null">quality_id = #{qualityId},</if>
+        </trim>
+        where uid = #{uid}
+    </update>
+
+    <delete id="deleteMicrochipPinLogByUid" parameterType="String">
+        delete from microchip_pin_log where uid = #{uid}
+    </delete>
+
+    <delete id="deleteMicrochipPinLogByUids" parameterType="String">
+        delete from microchip_pin_log where uid in 
+        <foreach item="uid" collection="array" open="(" separator="," close=")">
+            #{uid}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.classify.mapper.MicrochipClassifyLogMapper">
+    
+    <resultMap type="MicrochipClassifyLog" id="MicrochipClassifyLogResult">
+        <result property="uid"    column="uid"    />
+        <result property="threshold"    column="threshold"    />
+        <result property="confidence"    column="confidence"    />
+        <result property="index"    column="index"    />
+        <result property="label"    column="label"    />
+        <result property="modelkind"    column="modelKind"    />
+        <result property="name"    column="name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="qualityId"    column="quality_id"    />
+    </resultMap>
+
+    <sql id="selectMicrochipClassifyLogVo">
+        select uid, threshold, confidence, `index`, label, modelKind, `name`, create_time, quality_id from microchip_classify_log
+    </sql>
+
+    <select id="selectMicrochipClassifyLogList" parameterType="MicrochipClassifyLog" resultMap="MicrochipClassifyLogResult">
+        <include refid="selectMicrochipClassifyLogVo"/>
+        <where>  
+            <if test="threshold != null  and threshold != ''"> and threshold = #{threshold}</if>
+            <if test="confidence != null  and confidence != ''"> and confidence = #{confidence}</if>
+            <if test="index != null "> and `index` = #{index}</if>
+            <if test="label != null  and label != ''"> and label = #{label}</if>
+            <if test="modelkind != null "> and modelKind = #{modelkind}</if>
+            <if test="name != null  and name != ''"> and `name` like concat('%', #{name}, '%')</if>
+            <if test="qualityId != null  and qualityId != ''"> and quality_id = #{qualityId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMicrochipClassifyLogByUid" parameterType="String" resultMap="MicrochipClassifyLogResult">
+        <include refid="selectMicrochipClassifyLogVo"/>
+        where uid = #{uid}
+    </select>
+        
+    <insert id="insertMicrochipClassifyLog" parameterType="MicrochipClassifyLog">
+        insert into microchip_classify_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">uid,</if>
+            <if test="threshold != null">threshold,</if>
+            <if test="confidence != null">confidence,</if>
+            <if test="index != null">`index`,</if>
+            <if test="label != null">label,</if>
+            <if test="modelkind != null">modelKind,</if>
+            <if test="name != null">`name`,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="qualityId != null">quality_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid},</if>
+            <if test="threshold != null">#{threshold},</if>
+            <if test="confidence != null">#{confidence},</if>
+            <if test="index != null">#{index},</if>
+            <if test="label != null">#{label},</if>
+            <if test="modelkind != null">#{modelkind},</if>
+            <if test="name != null">#{name},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="qualityId != null">#{qualityId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMicrochipClassifyLog" parameterType="MicrochipClassifyLog">
+        update microchip_classify_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="threshold != null">threshold = #{threshold},</if>
+            <if test="confidence != null">confidence = #{confidence},</if>
+            <if test="index != null">`index` = #{index},</if>
+            <if test="label != null">label = #{label},</if>
+            <if test="modelkind != null">modelKind = #{modelkind},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="qualityId != null">quality_id = #{qualityId},</if>
+        </trim>
+        where uid = #{uid}
+    </update>
+
+    <delete id="deleteMicrochipClassifyLogByUid" parameterType="String">
+        delete from microchip_classify_log where uid = #{uid}
+    </delete>
+
+    <delete id="deleteMicrochipClassifyLogByUids" parameterType="String">
+        delete from microchip_classify_log where uid in 
+        <foreach item="uid" collection="array" open="(" separator="," close=")">
+            #{uid}
+        </foreach>
+    </delete>
+</mapper>
