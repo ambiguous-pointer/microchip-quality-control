@@ -5,7 +5,7 @@
         <div>
           <el-upload
             ref="upload"
-            :limit="1"
+            :limit="3"
             accept=".png, .jpg"
             :headers="upload.headers"
             :action="upload.url + '?updateSupport=' + upload.updateSupport"
@@ -118,23 +118,17 @@ export default {
     }
   },
   created: function () {
-    // let url = '/video'
-    // let canvas = document.getElementById("video")
-    // let player1 = new JSMpeg.Player(url, {
-    //   canvas: canvas,
-    //   autoplay: true
-    // })
     setTimeout(() => {
       this.loading = false;
     }, 1000)
-    for (let i = 0; i < 10; i++) {
+    /*for (let i = 0; i < 10; i++) {
       this.roleList.push({
         discriminateCode: "039ddaa0-c80e-4d9f-092d-0b075746ff0c" + i,
         discriminateResult: "1",
         discriminateTime: "300",
         imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/good.png",
       })
-    }
+    }*/
 
   },
   methods: {
@@ -149,18 +143,10 @@ export default {
       // option.text = "建立连接"
       option.text = "识别中"
       await this.asynchronousClose(this.$loading(option), 500);
-      // option.text = "连接成功"
-      // await this.asynchronousClose(this.$loading(option), 500);
-      // option.text = "开始识别"
-      // await this.asynchronousClose(this.$loading(option), 500);
-      // option.text = "识别成功"
-      // await this.asynchronousClose(this.$loading(option), 500);
-
-
     },
     // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
-      this.upload.isUploading = true;
+      this.upload.isUploading = false;
     },
     // 文件上传成功处理
     handleFileSuccess(response, file, fileList) {
@@ -174,6 +160,7 @@ export default {
       }
       if (this.countNumber === 0) {
         this.microchipResult = 1;
+        this.singleRoleList = [];
         this.singleRoleList.push({
           label: "CQI-S-Good",
           confidence: "99.9%",
@@ -220,10 +207,6 @@ export default {
       } else if (this.countNumber === 2) {
         this.microchipResult = 3;
         this.singleRoleList = [];
-        this.fileList.push({
-          "name": response.originalFilename,
-          "url": process.env.VUE_APP_BASE_API + response.fileName
-        })
         this.singleRoleList.push({
           label: "lose-pin",
           confidence: "99.9%",
