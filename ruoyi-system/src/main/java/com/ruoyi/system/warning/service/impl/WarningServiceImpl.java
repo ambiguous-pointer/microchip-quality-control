@@ -1,6 +1,8 @@
 package com.ruoyi.system.warning.service.impl;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.warning.mapper.WarningMapper;
@@ -26,7 +28,7 @@ public class WarningServiceImpl implements IWarningService
      * @return 预警查看
      */
     @Override
-    public Warning selectWarningById(Long id)
+    public Warning selectWarningById(String id)
     {
         return warningMapper.selectWarningById(id);
     }
@@ -52,6 +54,7 @@ public class WarningServiceImpl implements IWarningService
     @Override
     public int insertWarning(Warning warning)
     {
+        warning.setId(UUID.randomUUID().toString());
         return warningMapper.insertWarning(warning);
     }
 
@@ -74,7 +77,7 @@ public class WarningServiceImpl implements IWarningService
      * @return 结果
      */
     @Override
-    public int deleteWarningByIds(Long[] ids)
+    public int deleteWarningByIds(String[] ids)
     {
         return warningMapper.deleteWarningByIds(ids);
     }
@@ -86,7 +89,7 @@ public class WarningServiceImpl implements IWarningService
      * @return 结果
      */
     @Override
-    public int deleteWarningById(Long id)
+    public int deleteWarningById(String id)
     {
         return warningMapper.deleteWarningById(id);
     }

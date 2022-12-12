@@ -87,7 +87,7 @@
 
     <el-table v-loading="loading" :data="warningList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="UID" align="center" prop="id" />
+<!--      <el-table-column label="UID" align="center" prop="id" />-->
       <el-table-column label="产线编号" align="center" prop="lineNo" />
       <el-table-column label="预警名称" align="center" prop="warningName" />
       <el-table-column label="预警时间" align="center" prop="warningTime" width="180">
@@ -115,7 +115,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -125,8 +125,8 @@
     />
 
     <!-- 添加或修改预警查看对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="产线编号" prop="lineNo">
           <el-input v-model="form.lineNo" placeholder="请输入产线编号" />
         </el-form-item>

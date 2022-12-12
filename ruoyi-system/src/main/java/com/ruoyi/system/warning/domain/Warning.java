@@ -18,7 +18,7 @@ public class Warning extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** UID */
-    private Long id;
+    private String id;
 
     /** 产线编号 */
     @Excel(name = "产线编号")
@@ -37,12 +37,12 @@ public class Warning extends BaseEntity
     @Excel(name = "负责人邮箱")
     private String warningEmail;
 
-    public void setId(Long id) 
+    public void setId(String id) 
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public String getId() 
     {
         return id;
     }

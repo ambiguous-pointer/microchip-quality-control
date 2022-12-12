@@ -17,7 +17,7 @@ public interface IWarningService
      * @param id 预警查看主键
      * @return 预警查看
      */
-    public Warning selectWarningById(Long id);
+    public Warning selectWarningById(String id);
 
     /**
      * 查询预警查看列表
@@ -49,7 +49,7 @@ public interface IWarningService
      * @param ids 需要删除的预警查看主键集合
      * @return 结果
      */
-    public int deleteWarningByIds(Long[] ids);
+    public int deleteWarningByIds(String[] ids);
 
     /**
      * 删除预警查看信息
@@ -57,5 +57,5 @@ public interface IWarningService
      * @param id 预警查看主键
      * @return 结果
      */
-    public int deleteWarningById(Long id);
+    public int deleteWarningById(String id);
 }

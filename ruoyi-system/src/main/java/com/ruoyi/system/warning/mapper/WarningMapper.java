@@ -17,7 +17,7 @@ public interface WarningMapper
      * @param id 预警查看主键
      * @return 预警查看
      */
-    public Warning selectWarningById(Long id);
+    public Warning selectWarningById(String id);
 
     /**
      * 查询预警查看列表
@@ -49,7 +49,7 @@ public interface WarningMapper
      * @param id 预警查看主键
      * @return 结果
      */
-    public int deleteWarningById(Long id);
+    public int deleteWarningById(String id);
 
     /**
      * 批量删除预警查看
@@ -57,5 +57,5 @@ public interface WarningMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteWarningByIds(Long[] ids);
+    public int deleteWarningByIds(String[] ids);
 }

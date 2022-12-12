@@ -64,7 +64,7 @@ public class WarningController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:warning:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
+    public AjaxResult getInfo(@PathVariable("id") String id)
     {
         return success(warningService.selectWarningById(id));
     }
@@ -97,7 +97,7 @@ public class WarningController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:warning:remove')")
     @Log(title = "预警查看", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
+    public AjaxResult remove(@PathVariable String[] ids)
     {
         return toAjax(warningService.deleteWarningByIds(ids));
     }

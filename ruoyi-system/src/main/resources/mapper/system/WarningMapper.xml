@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectWarningById" parameterType="Long" resultMap="WarningResult">
+    <select id="selectWarningById" parameterType="String" resultMap="WarningResult">
         <include refid="selectWarningVo"/>
         where id = #{id}
     </select>
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteWarningById" parameterType="Long">
+    <delete id="deleteWarningById" parameterType="String">
         delete from warning where id = #{id}
     </delete>
 
