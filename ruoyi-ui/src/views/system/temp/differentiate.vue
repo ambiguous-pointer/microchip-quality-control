@@ -63,6 +63,7 @@
                   <el-tag v-if="scope.row.discriminateResult == 1" type="success">Good</el-tag>
                   <el-tag v-if="scope.row.discriminateResult == 2" type="danger">ng</el-tag>
                   <el-tag v-if="scope.row.discriminateResult == 3" type="danger">pin</el-tag>
+                  <el-tag v-if="scope.row.discriminateResult == -1" type="danger">pin&ng</el-tag>
                 </template>
               </el-table-column>
               <el-table-column label="识别时长" prop="discriminateTime">
@@ -89,6 +90,7 @@
 </template>
 
 <script>
+import {listQuality1, getQuality, delQuality, addQuality, updateQuality, listQuality} from "@/api/system/quality";
 import {getToken} from "@/utils/auth";
 
 export default {
@@ -113,7 +115,7 @@ export default {
         // 设置上传的请求头部
         headers: {Authorization: "Bearer " + getToken()},
         // 上传的地址
-        url: process.env.VUE_APP_BASE_API + "/common/upload"
+        url: process.env.VUE_APP_BASE_API + "/system/quality/upload"
       },
     }
   },
@@ -129,9 +131,32 @@ export default {
         imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/good.png",
       })
     }*/
-
+    this.initData();
   },
   methods: {
+    initData(){
+      listQuality1(this.queryParams).then(response => {
+        console.log(response.rows);
+        this.roleList = response.rows.map((value, index, array) => {
+          let discriminateResult = -1;
+          if (value.pingResult == "1" && value.classifyResult == "1") {
+            discriminateResult = 1
+          } else if (value.pingResult == "0" && value.classifyResult == "1") {
+            discriminateResult = 3
+          } else if (value.pingResult == "1" && value.classifyResult == "0") {
+            discriminateResult = 2
+          }
+          return {
+            "discriminateCode": value.id,
+            "discriminateTime": value.ms,
+            discriminateResult,
+            pingResult:value.pingResult,
+            classifyResult:value.classifyResult,
+            "imagePath": process.env.VUE_APP_BASE_API + value.imagepath,
+          }
+        })
+      });
+    },
     async singleDiscriminate() {
       this.$refs.upload.submit();
       let option = {
@@ -158,6 +183,7 @@ export default {
         this.countNumber = parseInt(resultStr.substring(resultStr.length - 1, resultStr.length));
         pinNumber = parseInt(resultStr.substring(resultStr.length - 2, resultStr.length - 1));
       }
+      this.initData()
       if (this.countNumber === 0) {
         this.microchipResult = 1;
         this.singleRoleList = [];
@@ -171,12 +197,12 @@ export default {
           confidence: "00.1%",
           // imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/good.png",
         });
-        this.roleList.push({
+        /*this.roleList.push({
           discriminateCode: "039ddaa0-c80e-4d9f-092d-0b075746ff0c",
           discriminateResult: "1",
           discriminateTime: "300",
           imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/good.png",
-        })
+        })*/
         setTimeout(() => {
           this.imageSrc = "/profile/upload/2022/12/10/ng.png"
         }, 3000)
@@ -194,12 +220,12 @@ export default {
           confidence: "99.9%",
           // imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/good.png",
         });
-        this.roleList.push({
+        /*this.roleList.push({
           discriminateCode: "072848d9-f169-8c22-2a43-ec04ab6194c3",
           discriminateResult: "2",
           discriminateTime: "310",
           imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/ng.png",
-        })
+        })*/
         setTimeout(() => {
           this.imageSrc = "/profile/upload/2022/12/10/p.png"
         }, 3000)
@@ -217,12 +243,12 @@ export default {
           confidence: "99.9%",
           // imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/good.png",
         });
-        this.roleList.push({
+        /*this.roleList.push({
           discriminateCode: "0f782e7f-13ab-9e2e-a1b5-297d48905651",
           discriminateResult: "3",
           discriminateTime: "350",
           imagePath: process.env.VUE_APP_BASE_API + "/profile/upload/2022/12/10/p.png",
-        })
+        })*/
         setTimeout(() => {
           this.imageSrc = "/profile/upload/2022/12/10/good.png"
         }, 3000)

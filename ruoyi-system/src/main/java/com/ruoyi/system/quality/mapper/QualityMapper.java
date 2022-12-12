@@ -26,6 +26,9 @@ public interface QualityMapper
      * @return 检查集合
      */
     public List<Quality> selectQualityList(Quality quality);
+    public List<Quality> selectQualityList1(Quality quality);
+
+
 
     /**
      * 新增检查

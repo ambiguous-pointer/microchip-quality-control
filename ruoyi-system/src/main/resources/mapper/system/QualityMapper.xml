@@ -24,10 +24,10 @@
 
     <select id="selectQualityList" parameterType="Quality" resultMap="QualityResult">
         select q.id, q.assembly_line_id, q.sampling_time, q.distinguish_time, q.ping_result, q.classify_result,
-        q.imagePath,al.a_l_name ,q.distinguish_time - q.sampling_time AS ms from quality as q left join assembly_line as
+        q.imagePath,al.a_l_name ,q.ms AS ms from quality as q left join assembly_line as
         al on al.uid = q.assembly_line_id
         <where>
-            (q.distinguish_time - q.sampling_time)&gt;0 AND (q.distinguish_time - q.sampling_time)&lt;1
+
             <if test="assemblyLineId != null  and assemblyLineId != ''">and q.assembly_line_id = #{assemblyLineId}</if>
             <if test="samplingTime != null ">and q.sampling_time = #{samplingTime}</if>
             <if test="distinguishTime != null ">and q.distinguish_time = #{distinguishTime}</if>
@@ -35,6 +35,21 @@
             <if test="classifyResult != null  and classifyResult != ''">and q.classify_result = #{classifyResult}</if>
             <if test="imagepath != null  and imagepath != ''">and q.imagePath = #{imagepath}</if>
         </where>
+        order by q.sampling_time DESC
+    </select>
+    <select id="selectQualityList1" parameterType="Quality" resultMap="QualityResult">
+        select q.id, q.assembly_line_id, q.sampling_time, q.distinguish_time, q.ping_result, q.classify_result,
+        q.imagePath,al.a_l_name ,q.ms AS ms from quality as q left join assembly_line as
+        al on al.uid = q.assembly_line_id
+        <where>
+            <if test="assemblyLineId != null  and assemblyLineId != ''">and q.assembly_line_id = #{assemblyLineId}</if>
+            <if test="samplingTime != null ">and q.sampling_time = #{samplingTime}</if>
+            <if test="distinguishTime != null ">and q.distinguish_time = #{distinguishTime}</if>
+            <if test="pingResult != null  and pingResult != ''">and q.ping_result = #{pingResult}</if>
+            <if test="classifyResult != null  and classifyResult != ''">and q.classify_result = #{classifyResult}</if>
+            <if test="imagepath != null  and imagepath != ''">and q.imagePath = #{imagepath}</if>
+        </where>
+        order by q.sampling_time DESC
     </select>
 
     <select id="selectQualityById" parameterType="String" resultMap="QualityResult">
@@ -52,6 +67,7 @@
             <if test="pingResult != null">ping_result,</if>
             <if test="classifyResult != null">classify_result,</if>
             <if test="imagepath != null">imagePath,</if>
+            <if test="ms != null">ms,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -61,6 +77,7 @@
             <if test="pingResult != null">#{pingResult},</if>
             <if test="classifyResult != null">#{classifyResult},</if>
             <if test="imagepath != null">#{imagepath},</if>
+            <if test="ms != null">#{ms},</if>
         </trim>
     </insert>
 

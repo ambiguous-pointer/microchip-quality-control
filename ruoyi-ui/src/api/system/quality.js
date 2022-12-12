@@ -8,6 +8,14 @@ export function listQuality(query) {
     params: query
   })
 }
+// 查询检查列表
+export function listQuality1(query) {
+  return request({
+    url: '/system/quality/list1',
+    method: 'get',
+    params: query
+  })
+}
 
 // 查询检查详细
 export function getQuality(id) {

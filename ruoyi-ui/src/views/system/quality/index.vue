@@ -56,29 +56,6 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['system:quality:add']"-->
-<!--        >新增-->
-<!--        </el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['system:quality:edit']"-->
-<!--        >修改-->
-<!--        </el-button>-->
-<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -121,20 +98,20 @@
       </el-table-column>
       <el-table-column label="耗时" align="center" prop="ms" width="180">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.ms < 1" type="success">{{scope.row.ms+"s"}}</el-tag>
-          <el-tag v-if="scope.row.ms > 1" type="danger">{{scope.row.ms+"s"}}</el-tag>
+          <el-tag v-if="scope.row.ms < 1000" type="success">{{scope.row.ms+"ms"}}</el-tag>
+          <el-tag v-if="scope.row.ms > 1000" type="danger">{{scope.row.ms+"ms"}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="引角结果" align="center" prop="pingResult">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pingResult == 1" type="success">成功</el-tag>
-          <el-tag v-if="scope.row.pingResult == 2" type="danger">失败</el-tag>
+          <el-tag v-if="scope.row.pingResult == 0" type="danger">失败</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="划痕及结果" align="center" prop="classifyResult">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.classifyResult == 1" type="success">成功</el-tag>
-          <el-tag v-if="scope.row.classifyResult == 2" type="danger">失败</el-tag>
+          <el-tag v-if="scope.row.classifyResult == 0" type="danger">失败</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="芯片图片" align="center" prop="imagepath">
